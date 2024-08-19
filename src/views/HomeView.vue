@@ -29,7 +29,7 @@ function clearMultiSelect() {
 </script>
 
 <template>
-  <main style="display: flex; flex-direction: column">
+  <main style="display: flex; flex-direction: column; max-width: inherit">
     <edit-link />
     {{'Значение переменной директивы v-model: ' + correctionDate}}
     <date-picker v-model="time" timeOnly/>
@@ -55,7 +55,7 @@ function clearMultiSelect() {
   </main>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
 .checkbox-all {
   position: absolute;
   left: 45px;
