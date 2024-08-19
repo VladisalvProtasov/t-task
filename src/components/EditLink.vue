@@ -29,6 +29,7 @@ async function changeComponent() {
       v-model="value"
       placeholder="https://"
       @focusout="changeComponent"
+      @keyup.enter="changeComponent"
     />
     <div
       v-if="!show"

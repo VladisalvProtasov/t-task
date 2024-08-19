@@ -4,6 +4,7 @@ import InputGroup from 'primevue/inputgroup'
 import InputText from 'primevue/inputtext'
 import ListBox from 'primevue/listbox'
 import Button from 'primevue/button'
+import Popover from 'primevue/popover'
 import { defineEmits, ref, toRefs } from 'vue'
 import type { ColumnType, SearchElement } from '@/components/TableSearch/Modules'
 
@@ -13,8 +14,8 @@ const emits = defineEmits<{
   searchTable: [SearchElement]
 }>()
 
+const popover = ref()
 const { columns } = toRefs(props);
-const isOpenList = ref<boolean>(false)
 const search = ref<string>('')
 const targetColumn = ref<ColumnType>({} as ColumnType);
 
@@ -30,6 +31,10 @@ function updateSearch() {
   )
 }
 
+const toggle = (event: HTMLElement) => {
+  popover.value.toggle(event);
+};
+
 </script>
 
 <template>
@@ -40,16 +45,21 @@ function updateSearch() {
          icon="pi pi-sliders-v"
          severity="success"
          class="search__button"
-         @click="isOpenList = !isOpenList"
+         type="button"
+         @click="toggle"
        >
        </Button>
-       <list-box
-         v-if="isOpenList"
-         v-model="targetColumn"
-         :options="columns"
-         optionLabel="header"
-         class="w-full md:w-14rem search__list"
-       />
+       <Popover
+         :unstyled="true"
+         ref="popover"
+       >
+         <list-box
+           v-model="targetColumn"
+           :options="columns"
+           optionLabel="header"
+           class="w-full md:w-14rem search__list"
+         />
+       </Popover>
      </div>
      <div class="search__group">
        <InputText
@@ -83,11 +93,6 @@ function updateSearch() {
   &__group,
   &__input {
     width: 100% !important;
-  }
-  &__list {
-    position: absolute;
-    top: 40px;
-    z-index: 2;
   }
   &__reset {
     position: absolute;
